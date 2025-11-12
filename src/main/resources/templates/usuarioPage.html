@@ -255,7 +255,7 @@
 <body>
 
 <nav class="navbar">
-    <a href="#" class="logo">FINANSystem</a>
+    <a href="#" class="logo">GustySystem</a>
     <div class="nav-links">
         <a href="/orcamentos">Orçamentos</a>
         <a href="/usuarios" class="active">Usuários</a>
@@ -311,18 +311,62 @@
     const usuarioForm = document.getElementById('usuarioForm');
     const btnLimpar = document.getElementById('btnLimpar');
 
+    // NOVO: Variável para guardar todos os usuários para o autocomplete
+    let allUsuarios = [];
+
+    // --- INÍCIO: NOVAS Funções de Máscara ---
+
+    // NOVO: Função para formatar CPF (000.000.000-00)
+    const formatarCPF = (cpf) => {
+        if (!cpf) return '';
+        let v = cpf.replace(/\D/g, ''); // Remove tudo que não é dígito
+        v = v.substring(0, 11); // Limita a 11 dígitos
+        v = v.replace(/(\d{3})(\d)/, '$1.$2');
+        v = v.replace(/(\d{3})(\d)/, '$1.$2');
+        v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        return v;
+    };
+
+    // NOVO: Função para formatar RG (ex: 00.000.000-0)
+    const formatarRG = (rg) => {
+        if (!rg) return '';
+        let v = rg.replace(/\D/g, ''); // Remove tudo que não é dígito
+        v = v.substring(0, 9); // Limita a 9 dígitos
+        v = v.replace(/(\d{2})(\d)/, '$1.$2'); // 00.
+        v = v.replace(/(\d{3})(\d)/, '$1.$2'); // 00.000.
+        v = v.replace(/(\d{3})(\d{1})$/, '$1-$2'); // 00.000.000-0
+        return v;
+    };
+
+    // NOVO: Função para remover a lista de sugestões
+    const removerSugestoes = () => {
+        const oldSuggestions = document.getElementById('autocomplete-results');
+        if (oldSuggestions) {
+            oldSuggestions.remove();
+        }
+    };
+    // --- FIM: NOVAS Funções de Máscara ---
+
+
     const fetchAndRenderTable = async () => {
         try {
             const response = await fetch(API_URL);
             if (!response.ok) throw new Error('Falha ao buscar usuários');
-            const users = await response.json();
+
+            // MODIFICADO: Salva os usuários na variável global
+            allUsuarios = await response.json();
+
             userTableBody.innerHTML = '';
-            users.forEach(user => {
+
+            // MODIFICADO: Itera sobre a lista salva
+            allUsuarios.forEach(user => {
                 const row = `
                     <tr>
                         <td>${user.id}</td>
                         <td>${user.nomeUsuario}</td>
-                        <td>${user.cpf}</td>
+
+                        <td>${formatarCPF(user.cpf)}</td>
+
                         <td>
                             <button class="btn-info" data-id="${user.id}">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.13,5.12L18.88,8.87M3,17.25V21H6.75L17.81,9.94L14.06,6.19L3,17.25Z"/></svg>
@@ -341,14 +385,17 @@
     const populateForm = (user) => {
         document.getElementById('id').value = user.id;
         document.getElementById('nomeUsuario').value = user.nomeUsuario;
-        document.getElementById('rg').value = user.rg;
-        document.getElementById('cpf').value = user.cpf;
         document.getElementById('nomeMae').value = user.nomeMae;
+
+        // MODIFICADO: Aplica as máscaras ao preencher o formulário
+        document.getElementById('rg').value = formatarRG(user.rg);
+        document.getElementById('cpf').value = formatarCPF(user.cpf);
     };
 
     const clearForm = () => {
         usuarioForm.reset();
         document.getElementById('id').value = '';
+        removerSugestoes(); // NOVO: Limpa sugestões
     };
 
     userTableBody.addEventListener('click', async (e) => {
@@ -360,7 +407,7 @@
                 if (response.ok) {
                     const user = await response.json();
                     populateForm(user);
-                    window.scrollTo(0, 0); // Rola a página para o topo para ver o formulário preenchido
+                    window.scrollTo(0, 0);
                 } else {
                     alert('Usuário não encontrado.');
                 }
@@ -375,8 +422,11 @@
         const id = document.getElementById('id').value;
         const userData = {
             nomeUsuario: document.getElementById('nomeUsuario').value,
-            rg: document.getElementById('rg').value,
-            cpf: document.getElementById('cpf').value,
+
+            // MODIFICADO: Remove máscaras antes de enviar ao backend
+            rg: document.getElementById('rg').value.replace(/\D/g, ''),
+            cpf: document.getElementById('cpf').value.replace(/\D/g, ''),
+
             nomeMae: document.getElementById('nomeMae').value,
         };
         if (id) {
@@ -400,7 +450,72 @@
     });
 
     btnLimpar.addEventListener('click', clearForm);
-    document.addEventListener('DOMContentLoaded', fetchAndRenderTable);
+
+    // MODIFICADO: Adiciona os listeners de input dentro do DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchAndRenderTable();
+
+        // --- INÍCIO: Solução Máscara CPF ---
+        const inputCpf = document.getElementById('cpf');
+        inputCpf.addEventListener('input', (e) => {
+            e.target.value = formatarCPF(e.target.value);
+        });
+        // --- FIM: Solução Máscara CPF ---
+
+        // --- INÍCIO: Solução Máscara RG ---
+        const inputRg = document.getElementById('rg');
+        inputRg.addEventListener('input', (e) => {
+            e.target.value = formatarRG(e.target.value);
+        });
+        // --- FIM: Solução Máscara RG ---
+
+        // --- INÍCIO: Solução Autocomplete ---
+        const inputNomeUsuario = document.getElementById('nomeUsuario');
+
+        inputNomeUsuario.addEventListener('input', () => {
+            const query = inputNomeUsuario.value.toLowerCase();
+            removerSugestoes(); // Limpa sugestões antigas
+
+            if (query.length < 1) return;
+
+            // Filtra os usuários já carregados
+            const sugestoes = allUsuarios.filter(user =>
+                user.nomeUsuario.toLowerCase().includes(query)
+            ).slice(0, 5); // Limita a 5 sugestões
+
+            if (sugestoes.length > 0) {
+                const suggestionsContainer = document.createElement('div');
+                suggestionsContainer.className = 'search-results';
+                suggestionsContainer.id = 'autocomplete-results';
+
+                sugestoes.forEach(user => {
+                    const item = document.createElement('div');
+                    item.className = 'result-item';
+                    item.textContent = user.nomeUsuario;
+
+                    // **AQUI ESTÁ A CORREÇÃO PRINCIPAL:**
+                    item.addEventListener('click', () => {
+                        // Ao clicar, preenche o formulário todo com os dados do usuário
+                        populateForm(user);
+                        // E a lista de sugestões desaparece
+                        removerSugestoes();
+                    });
+
+                    suggestionsContainer.appendChild(item);
+                });
+
+                inputNomeUsuario.parentNode.insertBefore(suggestionsContainer, inputNomeUsuario.nextSibling);
+            }
+        });
+
+        // Opcional: Fechar sugestões se o usuário clicar fora
+        document.addEventListener('click', (e) => {
+            if (e.target.id !== 'nomeUsuario') {
+                removerSugestoes();
+            }
+        });
+        // --- FIM: Solução Autocomplete ---
+    });
 </script>
 
 </body>

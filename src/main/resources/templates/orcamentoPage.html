@@ -255,7 +255,7 @@
 <body>
 
 <nav class="navbar">
-    <a href="#" class="logo">FINANSystem</a>
+    <a href="#" class="logo">GustySystem</a>
     <div class="nav-links">
         <a href="/orcamentos" class="active">Orçamentos</a>
         <a href="/usuarios">Usuários</a>
@@ -325,6 +325,13 @@
     const API_USUARIOS_URL = '/api/usuarios';
     const API_CLIENTES_URL = '/api/clientes';
 
+    // NOVO: Formato monetário Brasileiro (R$ 200.000,00)
+    // Isso cria um formatador que já sabe usar R$, ponto de milhar e vírgula de decimal.
+    const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
     // Elementos do formulário
     const orcamentoTableBody = document.getElementById('orcamentoTableBody');
     const orcamentoForm = document.getElementById('orcamentoForm');
@@ -351,7 +358,9 @@
                         <td>${orc.id}</td>
                         <td>${orc.cliente ? orc.cliente.nome : 'N/A'}</td>
                         <td>${orc.usuario ? orc.usuario.nomeUsuario : 'N/A'}</td>
-                        <td>R$ ${orc.valorOrcamento.toFixed(2)}</td>
+
+                        <td>${currencyFormatter.format(orc.valorOrcamento)}</td>
+
                         <td>
                             <button class="btn-danger" onclick="deleteOrcamento(${orc.id})">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16,9V4H8V9H2V11H4V21a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V11h2V9ZM10,18H8V13h2Zm4,0H12V13h2Zm4-7H6V6H18Z"/></svg>
@@ -405,6 +414,7 @@
 
     usuarioSearchResults.addEventListener('click', (e) => {
         if (e.target.classList.contains('result-item')) {
+            usuarioSearchTermInput.value = e.target.dataset.name;
             document.getElementById('usuarioId').value = e.target.dataset.id;
             document.getElementById('selectedUsuario').textContent = `Usuário Selecionado: ${e.target.dataset.name}`;
             usuarioSearchResults.innerHTML = '';
@@ -419,7 +429,6 @@
             return;
         }
         try {
-            // Usa o novo endpoint de pesquisa de cliente
             const response = await fetch(`${API_CLIENTES_URL}/pesquisa?termo=${encodeURIComponent(searchTerm)}`);
             const clientes = await response.json();
             clienteSearchResults.innerHTML = '';
@@ -438,6 +447,7 @@
 
     clienteSearchResults.addEventListener('click', (e) => {
         if (e.target.classList.contains('result-item')) {
+            clienteSearchTermInput.value = e.target.dataset.name;
             document.getElementById('clienteId').value = e.target.dataset.id;
             document.getElementById('selectedCliente').textContent = `Cliente Selecionado: ${e.target.dataset.name}`;
             clienteSearchResults.innerHTML = '';
@@ -447,7 +457,7 @@
     // --- Salvar Orçamento (ATUALIZADO) ---
     const saveOrcamento = async () => {
         const usuarioId = document.getElementById('usuarioId').value;
-        const clienteId = document.getElementById('clienteId').value; // Pega o ID do cliente
+        const clienteId = document.getElementById('clienteId').value;
 
         if (!usuarioId) {
             alert('Por favor, pesquise e selecione um usuário!');
@@ -458,14 +468,33 @@
             return;
         }
 
+        // --- MODIFICADO: Tratamento do valor ---
+        // Pega o valor digitado (ex: "150,50")
+        const valorInput = document.getElementById('valorOrcamento').value;
+
+        // Substitui a vírgula do formato BR por um ponto (ex: "150.50")
+        const valorNormalizado = valorInput.replace(',', '.');
+
+        // Converte para número. O parseFloat só entende o ponto.
+        const valorNumerico = parseFloat(valorNormalizado);
+
+        if (isNaN(valorNumerico)) {
+            alert('O valor do orçamento é inválido.');
+            return;
+        }
+        // --- Fim da Modificação ---
+
         const orcamentoData = {
             icmsEstados: document.getElementById('icmsEstados').value,
-            valorOrcamento: parseFloat(document.getElementById('valorOrcamento').value),
+
+            // Envia o número corrigido
+            valorOrcamento: valorNumerico,
+
             usuario: {
                 id: parseInt(usuarioId)
             },
             cliente: {
-                id: parseInt(clienteId) // Adiciona o cliente ao payload
+                id: parseInt(clienteId)
             }
         };
 
@@ -476,8 +505,8 @@
                 body: JSON.stringify(orcamentoData),
             });
             if (!response.ok) {
-                 const errorText = await response.text();
-                 throw new Error(`Falha ao salvar o orçamento: ${errorText}`);
+                const errorText = await response.text();
+                throw new Error(`Falha ao salvar o orçamento: ${errorText}`);
             }
 
             clearForm();

@@ -255,7 +255,7 @@
 <body>
 
 <nav class="navbar">
-  <a href="#" class="logo">FINANSystem</a>
+  <a href="#" class="logo">GustySystem</a>
   <div class="nav-links">
     <a href="/orcamentos">Orçamentos</a>
     <a href="/usuarios">Usuários</a>
@@ -301,24 +301,48 @@
 </div>
 
 <script>
-  const API_URL = '/api/clientes';
+    const API_URL = '/api/clientes';
 
-  const clienteTableBody = document.getElementById('clienteTableBody');
-  const clienteForm = document.getElementById('clienteForm');
-  const btnLimpar = document.getElementById('btnLimpar');
+    const clienteTableBody = document.getElementById('clienteTableBody');
+    const clienteForm = document.getElementById('clienteForm');
+    const btnLimpar = document.getElementById('btnLimpar');
 
-  const fetchAndRenderTable = async () => {
-      try {
-          const response = await fetch(API_URL);
-          if (!response.ok) throw new Error('Falha ao buscar clientes');
-          const clientes = await response.json();
-          clienteTableBody.innerHTML = '';
-          clientes.forEach(cliente => {
-              const row = `
+    // Variável para guardar todos os clientes para o autocomplete
+    let allClientes = [];
+
+    // Função para formatar CPF
+    const formatarCPF = (cpf) => {
+        if (!cpf) return ''; // Adicionado para evitar erro se o CPF for nulo/undefined
+        let v = cpf.replace(/\D/g, '');
+        v = v.substring(0, 11);
+        v = v.replace(/(\d{3})(\d)/, '$1.$2');
+        v = v.replace(/(\d{3})(\d)/, '$1.$2');
+        v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        return v;
+    };
+
+    // Função para remover a lista de sugestões
+    const removerSugestoes = () => {
+        const oldSuggestions = document.getElementById('autocomplete-results');
+        if (oldSuggestions) {
+            oldSuggestions.remove();
+        }
+    };
+
+    const fetchAndRenderTable = async () => {
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error('Falha ao buscar clientes');
+
+            allClientes = await response.json();
+            clienteTableBody.innerHTML = '';
+
+            allClientes.forEach(cliente => {
+                const row = `
                   <tr>
                       <td>${cliente.id}</td>
                       <td>${cliente.nome}</td>
-                      <td>${cliente.cpf}</td>
+                      <td>${formatarCPF(cliente.cpf)}</td>
                       <td>
                           <button class="btn-info" onclick="editCliente(${cliente.id})">
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.13,5.12L18.88,8.87M3,17.25V21H6.75L17.81,9.94L14.06,6.19L3,17.25Z"/></svg>
@@ -329,83 +353,146 @@
                       </td>
                   </tr>
               `;
-              clienteTableBody.insertAdjacentHTML('beforeend', row);
-          });
-      } catch (error) {
-          console.error('Erro ao carregar a tabela de clientes:', error);
-      }
-  };
+                clienteTableBody.insertAdjacentHTML('beforeend', row);
+            });
+        } catch (error) {
+            console.error('Erro ao carregar a tabela de clientes:', error);
+        }
+    };
 
-  const populateForm = (cliente) => {
-      document.getElementById('id').value = cliente.id;
-      document.getElementById('nome').value = cliente.nome;
-      document.getElementById('cpf').value = cliente.cpf;
-  };
+    // Esta função preenche o formulário todo
+    const populateForm = (cliente) => {
+        document.getElementById('id').value = cliente.id;
+        document.getElementById('nome').value = cliente.nome;
+        document.getElementById('cpf').value = formatarCPF(cliente.cpf);
+    };
 
-  const clearForm = () => {
-      clienteForm.reset();
-      document.getElementById('id').value = '';
-  };
+    const clearForm = () => {
+        clienteForm.reset();
+        document.getElementById('id').value = '';
+        removerSugestoes();
+    };
 
-  const editCliente = async (id) => {
-      try {
-          const response = await fetch(`${API_URL}/${id}`);
-          if (response.ok) {
-              const cliente = await response.json();
-              populateForm(cliente);
-              window.scrollTo(0, 0); // Rola para o topo
-          } else {
-              alert('Cliente não encontrado.');
-          }
-      } catch (error) {
-          console.error('Erro ao buscar cliente para edição:', error);
-      }
-  };
+    const editCliente = async (id) => {
+        try {
+            const response = await fetch(`${API_URL}/${id}`);
+            if (response.ok) {
+                const cliente = await response.json();
+                populateForm(cliente);
+                window.scrollTo(0, 0);
+            } else {
+                alert('Cliente não encontrado.');
+            }
+        } catch (error) {
+            console.error('Erro ao buscar cliente para edição:', error);
+        }
+    };
 
-  const deleteCliente = async (id) => {
-      if (confirm('Tem certeza que deseja excluir este cliente?')) {
-          try {
-              const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-              if (response.ok) {
-                  fetchAndRenderTable();
-              } else {
-                  alert('Erro ao excluir cliente.');
-              }
-          } catch (error) {
-              console.error('Erro ao excluir:', error);
-          }
-      }
-  };
+    const deleteCliente = async (id) => {
+        if (confirm('Tem certeza que deseja excluir este cliente?')) {
+            try {
+                const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    fetchAndRenderTable();
+                } else {
+                    alert('Erro ao excluir cliente.');
+                }
+            } catch (error) {
+                console.error('Erro ao excluir:', error);
+            }
+        }
+    };
 
-  clienteForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const id = document.getElementById('id').value;
-      const clienteData = {
-          nome: document.getElementById('nome').value,
-          cpf: document.getElementById('cpf').value,
-      };
-      if (id) {
-          clienteData.id = id;
-      }
+    clienteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('id').value;
+        const clienteData = {
+            nome: document.getElementById('nome').value,
+            cpf: document.getElementById('cpf').value.replace(/\D/g, ''),
+        };
+        if (id) {
+            clienteData.id = id;
+        }
 
-      try {
-          await fetch(API_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(clienteData),
-          });
+        try {
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(clienteData),
+            });
 
-          clearForm();
-          fetchAndRenderTable();
-          alert(id ? 'Cliente atualizado com sucesso!' : 'Cliente cadastrado com sucesso!');
-      } catch (error) {
-          console.error('Erro ao salvar cliente:', error);
-          alert('Ocorreu um erro ao salvar o cliente.');
-      }
-  });
+            clearForm();
+            fetchAndRenderTable();
+            alert(id ? 'Cliente atualizado com sucesso!' : 'Cliente cadastrado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao salvar cliente:', error);
+            alert('Ocorreu um erro ao salvar o cliente.');
+        }
+    });
 
-  btnLimpar.addEventListener('click', clearForm);
-  document.addEventListener('DOMContentLoaded', fetchAndRenderTable);
+    btnLimpar.addEventListener('click', clearForm);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchAndRenderTable();
+
+        // --- INÍCIO: Solução Problema 1 (Máscara CPF) ---
+        const inputCpf = document.getElementById('cpf');
+        inputCpf.addEventListener('input', (e) => {
+            e.target.value = formatarCPF(e.target.value);
+        });
+        // --- FIM: Solução Problema 1 ---
+
+
+        // --- INÍCIO: Solução Problema 2 (Autocomplete) ---
+        const inputNome = document.getElementById('nome');
+
+        inputNome.addEventListener('input', () => {
+            const query = inputNome.value.toLowerCase();
+            removerSugestoes();
+
+            if (query.length < 1) return;
+
+            const sugestoes = allClientes.filter(cliente =>
+                cliente.nome.toLowerCase().includes(query)
+            ).slice(0, 5);
+
+            if (sugestoes.length > 0) {
+                const suggestionsContainer = document.createElement('div');
+                suggestionsContainer.className = 'search-results';
+                suggestionsContainer.id = 'autocomplete-results';
+
+                sugestoes.forEach(cliente => {
+                    const item = document.createElement('div');
+                    item.className = 'result-item';
+                    item.textContent = cliente.nome;
+
+                    // vvvvvvvvvvvvvvvv AQUI ESTÁ A CORREÇÃO vvvvvvvvvvvvvvvv
+                    item.addEventListener('click', () => {
+                        // **MODIFICADO:**
+                        // Em vez de preencher só o nome (inputNome.value = cliente.nome),
+                        // chamamos a função populateForm para preencher o formulário inteiro.
+                        populateForm(cliente);
+
+                        // E a lista de sugestões desaparece
+                        removerSugestoes();
+                    });
+                    // ^^^^^^^^^^^^^^^^ AQUI ESTÁ A CORREÇÃO ^^^^^^^^^^^^^^^^
+
+                    suggestionsContainer.appendChild(item);
+                });
+
+                inputNome.parentNode.insertBefore(suggestionsContainer, inputNome.nextSibling);
+            }
+        });
+
+        // Opcional: Fechar sugestões se o usuário clicar fora do campo
+        document.addEventListener('click', (e) => {
+            if (e.target.id !== 'nome') {
+                removerSugestoes();
+            }
+        });
+        // --- FIM: Solução Problema 2 ---
+    });
 </script>
 
 </body>
