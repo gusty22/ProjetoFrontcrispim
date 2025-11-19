@@ -61,4 +61,17 @@ public class UsuarioController {
         UsuarioModel usuarioSalvo = usuarioService.salvarOuAtualizar(usuarioModel);
         return ResponseEntity.ok(usuarioSalvo);
     }
+
+    // 6. API para DELETAR um usuário
+    @DeleteMapping("/api/usuarios/{id}")
+    @ResponseBody
+    public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
+        try {
+            usuarioService.deletaUsuario(id);
+            return ResponseEntity.noContent().build(); // Retorna status 204 (Sucesso, sem conteúdo)
+        } catch (Exception e) {
+            // Caso ocorra erro (ex: usuário não existe), retorna 404 ou 500
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
