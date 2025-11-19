@@ -3,8 +3,10 @@ package com.finan.orcamento.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.CreationTimestamp; // Importante
 
 import java.io.Serializable;
+import java.time.LocalDate; // Importante
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,11 +27,15 @@ public class ClienteModel implements Serializable {
     @Column(name = "cpf", unique = true)
     private String cpf;
 
+    // NOVO CAMPO: Data de Cadastro
+    @CreationTimestamp
+    @Column(name = "data_cadastro", updatable = false)
+    private LocalDate dataCadastro;
+
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<OrcamentoModel> orcamentos = new ArrayList<>();
 
-    // Construtores
     public ClienteModel() {}
 
     public ClienteModel(Long id, String nome, String cpf) {
@@ -39,39 +45,21 @@ public class ClienteModel implements Serializable {
     }
 
     // Getters e Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public String getNome() {
-        return nome;
-    }
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public LocalDate getDataCadastro() { return dataCadastro; }
+    public void setDataCadastro(LocalDate dataCadastro) { this.dataCadastro = dataCadastro; }
 
-    public String getCpf() {
-        return cpf;
-    }
+    public List<OrcamentoModel> getOrcamentos() { return orcamentos; }
+    public void setOrcamentos(List<OrcamentoModel> orcamentos) { this.orcamentos = orcamentos; }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public List<OrcamentoModel> getOrcamentos() {
-        return orcamentos;
-    }
-
-    public void setOrcamentos(List<OrcamentoModel> orcamentos) {
-        this.orcamentos = orcamentos;
-    }
-
-    // Equals e hashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,7 +69,5 @@ public class ClienteModel implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+    public int hashCode() { return Objects.hash(id); }
 }

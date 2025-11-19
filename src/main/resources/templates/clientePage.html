@@ -10,24 +10,20 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     :root {
-        --cor-fundo: #f8f9fa;            /* Cinza muito claro */
-        --cor-superficie: #ffffff;       /* Branco (para os cards) */
-        --cor-primaria: #4C6EF5;         /* Azul moderno */
-        --cor-primaria-hover: #405ED6;   /* Azul mais escuro (hover) */
-        --cor-texto-primario: #212529;   /* Preto suave */
-        --cor-texto-secundario: #6c757d; /* Cinza médio */
-        --cor-borda: #e9ecef;            /* Cinza claro para bordas */
-        --cor-perigo: #e03131;           /* Vermelho suave */
-        --cor-info: #17a2b8;             /* Azul-petróleo (Editar) */
+        --cor-fundo: #f8f9fa;
+        --cor-superficie: #ffffff;
+        --cor-primaria: #4C6EF5;
+        --cor-primaria-hover: #405ED6;
+        --cor-texto-primario: #212529;
+        --cor-texto-secundario: #6c757d;
+        --cor-borda: #e9ecef;
+        --cor-perigo: #e03131;
+        --cor-info: #17a2b8;
         --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     /* 2. Reset e Estilos Globais */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         background-color: var(--cor-fundo);
@@ -45,39 +41,14 @@
         align-items: center;
         box-shadow: var(--sombra-card);
     }
-    .navbar .logo {
-        font-weight: 700;
-        font-size: 1.5rem;
-        color: var(--cor-primaria);
-        text-decoration: none;
-    }
-    .navbar .nav-links a {
-        color: var(--cor-texto-secundario);
-        text-decoration: none;
-        margin-left: 2rem;
-        font-weight: 500;
-        transition: color 0.2s ease-in-out;
-    }
-    .navbar .nav-links a:hover {
-        color: var(--cor-texto-primario);
-    }
-    .navbar .nav-links a.active {
-        color: var(--cor-primaria);
-        font-weight: 600;
-    }
+    .navbar .logo { font-weight: 700; font-size: 1.5rem; color: var(--cor-primaria); text-decoration: none; }
+    .navbar .nav-links a { color: var(--cor-texto-secundario); text-decoration: none; margin-left: 2rem; font-weight: 500; transition: color 0.2s ease-in-out; }
+    .navbar .nav-links a:hover { color: var(--cor-texto-primario); }
+    .navbar .nav-links a.active { color: var(--cor-primaria); font-weight: 600; }
 
     /* 4. Layout Principal e Cards */
-    .container {
-        max-width: 1300px;
-        margin: 2.5rem auto;
-        padding: 0 2rem;
-    }
-    .main-grid {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 2rem;
-        align-items: flex-start;
-    }
+    .container { max-width: 1300px; margin: 2.5rem auto; padding: 0 2rem; }
+    .main-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: flex-start; }
     .card {
         background-color: var(--cor-superficie);
         border: 1px solid var(--cor-borda);
@@ -86,207 +57,93 @@
         box-shadow: var(--sombra-card);
     }
     .card-title {
-        font-size: 1.5rem; /* Menor */
-        margin-bottom: 1.5rem;
-        font-weight: 600;
-        color: var(--cor-texto-primario);
-        border-bottom: 1px solid var(--cor-borda);
-        padding-bottom: 1rem;
+        font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 600;
+        color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda); padding-bottom: 1rem;
     }
 
     /* 5. Formulários */
-    label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        color: var(--cor-texto-secundario);
-        font-size: 0.9rem;
-    }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--cor-texto-secundario); font-size: 0.9rem; }
     input, select {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        margin-bottom: 1.5rem;
-        background-color: var(--cor-fundo); /* Fundo sutilmente diferente */
-        border: 1px solid var(--cor-borda);
-        border-radius: 8px;
-        color: var(--cor-texto-primario);
-        font-size: 1rem;
-        font-family: 'Inter', sans-serif;
+        width: 100%; padding: 0.75rem 1rem; margin-bottom: 1.5rem;
+        background-color: var(--cor-fundo); border: 1px solid var(--cor-borda); border-radius: 8px;
+        color: var(--cor-texto-primario); font-size: 1rem; font-family: 'Inter', sans-serif;
         transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    input:focus, select:focus {
-        outline: none;
-        border-color: var(--cor-primaria);
-        box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.2);
-    }
-    .form-actions {
-        display: flex;
-        gap: 1rem;
-        margin-top: 1.5rem;
-    }
+    input:focus, select:focus { outline: none; border-color: var(--cor-primaria); box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.2); }
+    .form-actions { display: flex; gap: 1rem; margin-top: 1.5rem; }
 
     /* 6. Botões */
     button {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.95rem; /* Um pouco menor */
-        border-radius: 8px;
-        cursor: pointer;
-        border: none;
-        transition: filter 0.2s ease-in-out;
-        font-weight: 600; /* Mais forte */
-        font-family: 'Inter', sans-serif;
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        padding: 0.75rem 1.5rem; font-size: 0.95rem; border-radius: 8px;
+        cursor: pointer; border: none; transition: filter 0.2s ease-in-out;
+        font-weight: 600; font-family: 'Inter', sans-serif;
     }
-    button svg {
-        width: 16px; /* Menor */
-        height: 16px;
-    }
+    button svg { width: 16px; height: 16px; }
     .btn-primary { background-color: var(--cor-primaria); color: #ffffff; }
     .btn-primary:hover { filter: brightness(90%); }
-
-    .btn-secondary {
-        background-color: var(--cor-borda);
-        color: var(--cor-texto-secundario);
-        font-weight: 500;
-    }
-    .btn-secondary:hover { background-color: #dce1e6; } /* Cinza um pouco mais escuro */
-
+    .btn-secondary { background-color: var(--cor-borda); color: var(--cor-texto-secundario); font-weight: 500; }
+    .btn-secondary:hover { background-color: #dce1e6; }
     .btn-danger { background-color: var(--cor-perigo); color: #ffffff; }
     .btn-danger:hover { filter: brightness(90%); }
-
     .btn-info { background-color: var(--cor-info); color: #ffffff; }
     .btn-info:hover { filter: brightness(90%); }
+    .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
 
     /* 7. Tabela */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        color: var(--cor-texto-secundario);
-    }
-    th, td {
-        padding: 1rem; /* Espaçamento consistente */
-        text-align: left;
-        border-bottom: 1px solid var(--cor-borda);
-    }
-    thead th {
-        font-size: 0.85rem;
-        font-weight: 600;
-        text-transform: uppercase; /* Mantém para clareza da coluna */
-        color: var(--cor-texto-secundario);
-        background-color: var(--cor-fundo);
-    }
+    table { width: 100%; border-collapse: collapse; color: var(--cor-texto-secundario); }
+    th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--cor-borda); }
+    thead th { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--cor-texto-secundario); background-color: var(--cor-fundo); }
     tbody tr:hover { background-color: #fcfcfd; }
     tbody td { font-size: 0.95rem; color: var(--cor-texto-primario); }
-    tbody td button { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
-    tbody td button svg { width: 14px; height: 14px; }
     .action-buttons { display: flex; gap: 0.5rem; }
 
+    /* 8. Componentes Específicos */
+    .search-results { background-color: var(--cor-superficie); border: 1px solid var(--cor-borda); border-radius: 8px; max-height: 160px; overflow-y: auto; margin-top: -1rem; box-shadow: var(--sombra-card); }
+    .result-item { padding: 0.75rem 1rem; cursor: pointer; font-size: 0.95rem; transition: background-color 0.2s ease; }
+    .result-item:hover { background-color: #f1f3f5; }
+    .result-item:not(:last-child) { border-bottom: 1px solid var(--cor-borda); }
 
-    /* 8. Componentes Específicos de Pesquisa */
-    .search-results {
-        background-color: var(--cor-superficie);
-        border: 1px solid var(--cor-borda);
-        border-radius: 8px;
-        max-height: 160px;
-        overflow-y: auto;
-        margin-top: -1rem; /* Puxa para baixo do input */
-        box-shadow: var(--sombra-card);
-    }
-    .result-item {
-        padding: 0.75rem 1rem;
-        cursor: pointer;
-        font-size: 0.95rem;
-        transition: background-color 0.2s ease;
-    }
-    .result-item:hover {
-        background-color: #f1f3f5;
-    }
-    .result-item:not(:last-child) {
-        border-bottom: 1px solid var(--cor-borda);
-    }
-    .selected-item {
-        color: var(--cor-primaria); /* Usa a cor primária */
-        font-weight: 500;
-        min-height: 1.5rem;
-        margin: 0.5rem 0 1rem 0; /* Espaçamento ajustado */
-        font-size: 0.9rem;
-    }
-
-    /* --- INÍCIO: NOVOS Estilos do Modal --- */
+    /* 9. Estilos dos Modais */
     .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(33, 37, 41, 0.5);
-        display: none; /* Escondido por padrão */
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(33, 37, 41, 0.5); display: none;
+        align-items: center; justify-content: center; z-index: 1000;
+        opacity: 0; transition: opacity 0.2s ease-in-out;
     }
-    .modal-overlay.active {
-        display: flex;
-        opacity: 1;
-    }
+    .modal-overlay.active { display: flex; opacity: 1; }
     .modal-content {
-        background-color: var(--cor-superficie);
-        border-radius: 12px;
-        padding: 2.5rem;
-        box-shadow: var(--sombra-card);
-        width: 90%;
-        max-width: 600px;
-        position: relative;
-        z-index: 1001;
-        transform: scale(0.95);
-        transition: transform 0.2s ease-in-out;
+        background-color: var(--cor-superficie); border-radius: 12px;
+        padding: 2.5rem; box-shadow: var(--sombra-card);
+        width: 95%; max-width: 900px; /* Mais largo para relatório */
+        position: relative; z-index: 1001;
+        transform: scale(0.95); transition: transform 0.2s ease-in-out;
+        max-height: 90vh; overflow-y: auto;
     }
-    .modal-overlay.active .modal-content {
-        transform: scale(1);
-    }
+    .modal-overlay.active .modal-content { transform: scale(1); }
     .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-        font-weight: 600;
-        color: var(--cor-texto-primario);
-        border-bottom: 1px solid var(--cor-borda);
+        display: flex; justify-content: space-between; align-items: center;
+        font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 600;
+        color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda);
         padding-bottom: 1rem;
     }
-    .modal-close {
-        font-size: 2.5rem;
-        font-weight: 300;
-        color: var(--cor-texto-secundario);
-        cursor: pointer;
-        line-height: 1;
-        border: none;
-        background: transparent;
-        padding: 0;
-    }
+    .modal-close { font-size: 2.5rem; font-weight: 300; color: var(--cor-texto-secundario); cursor: pointer; line-height: 1; border: none; background: transparent; padding: 0; }
     .modal-close:hover { color: var(--cor-texto-primario); }
-    /* --- FIM: NOVOS Estilos do Modal --- */
 
-
-    /* 9. Responsividade */
-    @media (max-width: 1024px) {
-        .main-grid {
-            grid-template-columns: 1fr; /* Coluna única em tablets */
-        }
+    /* 10. Estilos Específicos do Relatório */
+    .filter-grid {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+        margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--cor-borda);
     }
-
-    @media (max-width: 768px) {
-        body { font-size: 14px; }
-        .navbar { padding: 1rem; flex-direction: column; gap: 1rem; }
-        .container { margin: 1.5rem auto; padding: 0 1rem; }
-        .card { padding: 1.5rem; }
-        .modal-content { padding: 1.5rem; }
+    .pagination-controls {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--cor-borda);
     }
+    .page-info { font-size: 0.9rem; color: var(--cor-texto-secundario); }
+
+    /* Responsividade */
+    @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) { body { font-size: 14px; } .filter-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -310,12 +167,17 @@
         <input type="text" id="nome" required placeholder="Nome completo">
         <label for="cpf">CPF</label>
         <input type="text" id="cpf" required placeholder="000.000.000-00">
-        <div class="form-actions">
+        <div class="form-actions" style="flex-wrap: wrap;">
           <button id="salvarCliente" type="submit" class="btn-primary">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19,9H5a1,1,0,0,0-1,1V19a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V10A1,1,0,0,0,19,9ZM7,17a1,1,0,1,1,1-1A1,1,0,0,1,7,17ZM17,7H7V4H17Z"/></svg>
             Salvar
           </button>
           <button id="btnLimpar" type="button" class="btn-secondary">Limpar</button>
+
+          <button id="btnOpenReport" type="button" class="btn-info" style="width: 100%; margin-top: 1rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14,2H6A2,2,0,0,0,4,4V20A2,2,0,0,0,6,22H18A2,2,0,0,0,20,20V8L14,2M18,20H6V4H13V9H18V20M16,11V18.1L13.9,16L11.1,18.8L8.3,16L6.2,18.1L3.4,15.3L5.5,13.2L8.3,16L11.1,13.2L13.9,16L16,13.9L18.8,16.7L16,19.5V11H16Z"/></svg>
+            Relatórios Avançados
+          </button>
         </div>
       </form>
     </aside>
@@ -338,77 +200,127 @@
 </div>
 
 <div class="modal-overlay" id="editModalOverlay">
-  <div class="modal-content">
+  <div class="modal-content" style="max-width: 600px;">
     <div class="modal-header">
       <h2 class="card-title" style="margin-bottom: 0; border: none; padding: 0;">Editar Cliente</h2>
       <button class="modal-close" id="modalCloseBtn">&times;</button>
     </div>
-
     <form id="editClienteForm" style="margin-top: 1.5rem;">
       <input type="hidden" id="editId">
-
       <label for="editNome">Nome do Cliente</label>
       <input type="text" id="editNome" required placeholder="Nome completo">
-
       <label for="editCpf">CPF</label>
       <input type="text" id="editCpf" required placeholder="000.000.000-00">
-
       <div class="form-actions">
-        <button id="salvarEditCliente" type="submit" class="btn-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19,9H5a1,1,0,0,0-1,1V19a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V10A1,1,0,0,0,19,9ZM7,17a1,1,0,1,1,1-1A1,1,0,0,1,7,17ZM17,7H7V4H17Z"/></svg>
-          Atualizar
-        </button>
+        <button id="salvarEditCliente" type="submit" class="btn-primary">Atualizar</button>
         <button id="btnCancelarEdit" type="button" class="btn-secondary">Cancelar</button>
       </div>
     </form>
   </div>
 </div>
+
+<div class="modal-overlay" id="reportModalOverlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="card-title" style="margin-bottom: 0; border: none; padding: 0;">Relatório de Clientes</h2>
+      <button class="modal-close" id="reportModalCloseBtn">&times;</button>
+    </div>
+
+    <div class="filter-grid">
+      <div>
+        <label style="margin-bottom: 0.2rem; font-size: 0.85rem;">Data Cadastro (Início)</label>
+        <input type="date" id="filterDateStart" style="margin-bottom: 0;">
+      </div>
+      <div>
+        <label style="margin-bottom: 0.2rem; font-size: 0.85rem;">Data Cadastro (Fim)</label>
+        <input type="date" id="filterDateEnd" style="margin-bottom: 0;">
+      </div>
+    </div>
+    <div style="margin-bottom: 1.5rem; display: flex; justify-content: flex-end;">
+      <button id="btnApplyFilters" class="btn-primary btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10,18H14V16H10V18ZM3,6V8H21V6H3ZM6,13H18V11H6V13Z"/></svg>
+        Filtrar
+      </button>
+    </div>
+
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Data Cadastro</th>
+      </tr>
+      </thead>
+      <tbody id="reportTableBody"></tbody>
+    </table>
+
+    <div class="pagination-controls">
+      <button id="btnPrevPage" class="btn-secondary btn-sm" disabled>Anterior</button>
+      <span class="page-info" id="pageInfo">Página 1</span>
+      <button id="btnNextPage" class="btn-secondary btn-sm">Próximo</button>
+    </div>
+  </div>
+</div>
+
 <script>
   const API_URL = '/api/clientes';
+  const API_REPORT_URL = '/api/clientes/relatorio'; // URL nova
 
-  // Forms
+  // Elementos CRUD
   const clienteTableBody = document.getElementById('clienteTableBody');
-  const clienteForm = document.getElementById('clienteForm'); // Sidebar
+  const clienteForm = document.getElementById('clienteForm');
   const btnLimpar = document.getElementById('btnLimpar');
 
-  // NOVO: Modal Elements
+  // Elementos Modal Edição
   const editModalOverlay = document.getElementById('editModalOverlay');
-  const editClienteForm = document.getElementById('editClienteForm'); // Modal
+  const editClienteForm = document.getElementById('editClienteForm');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
   const btnCancelarEdit = document.getElementById('btnCancelarEdit');
 
-  let allClientes = [];
+  // Elementos Relatório
+  const btnOpenReport = document.getElementById('btnOpenReport');
+  const reportModalOverlay = document.getElementById('reportModalOverlay');
+  const reportModalCloseBtn = document.getElementById('reportModalCloseBtn');
+  const reportTableBody = document.getElementById('reportTableBody');
+  const btnApplyFilters = document.getElementById('btnApplyFilters');
+  const btnPrevPage = document.getElementById('btnPrevPage');
+  const btnNextPage = document.getElementById('btnNextPage');
+  const pageInfo = document.getElementById('pageInfo');
 
-  // --- Funções de Máscara ---
+  let allClientes = [];
+  let currentPage = 0;
+  let pageSize = 20;
+  let totalPages = 0;
+
+  // --- Utils ---
   const formatarCPF = (cpf) => {
       if (!cpf) return '';
-      let v = cpf.replace(/\D/g, '');
-      v = v.substring(0, 11);
-      v = v.replace(/(\d{3})(\d)/, '$1.$2');
-      v = v.replace(/(\d{3})(\d)/, '$1.$2');
-      v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-      return v;
+      let v = cpf.replace(/\D/g, ''); v = v.substring(0, 11);
+      v = v.replace(/(\d{3})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d)/, '$1.$2');
+      v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); return v;
+  };
+
+  const formatarData = (dataStr) => {
+      if (!dataStr) return '-';
+      return new Date(dataStr).toLocaleDateString('pt-BR');
   };
 
   const removerSugestoes = () => {
-      const oldSuggestions = document.getElementById('autocomplete-results');
-      if (oldSuggestions) {
-          oldSuggestions.remove();
-      }
+      const old = document.getElementById('autocomplete-results');
+      if (old) old.remove();
   };
-  // --- FIM Funções de Máscara ---
 
-  // --- READ (ALL) ---
+  // --- CRUD Principal ---
   const fetchAndRenderTable = async () => {
       try {
           const response = await fetch(API_URL);
-          if (!response.ok) throw new Error('Falha ao buscar clientes');
-
+          if (!response.ok) throw new Error('Erro buscar');
           allClientes = await response.json();
           clienteTableBody.innerHTML = '';
 
-          allClientes.forEach(cliente => {
-              // ALTERADO: Botões com data-action, sem onclick
+          // Exibe apenas os 10 últimos cadastrados na tela inicial
+          allClientes.slice(-10).reverse().forEach(cliente => {
               const row = `
                 <tr>
                     <td>${cliente.id}</td>
@@ -416,225 +328,134 @@
                     <td>${formatarCPF(cliente.cpf)}</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-info" data-action="edit" data-id="${cliente.id}">
+                            <button class="btn-info btn-sm" onclick="openEditCliente(${cliente.id})">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.13,5.12L18.88,8.87M3,17.25V21H6.75L17.81,9.94L14.06,6.19L3,17.25Z"/></svg>
                             </button>
-                            <button class="btn-danger" data-action="delete" data-id="${cliente.id}">
+                            <button class="btn-danger btn-sm" onclick="deleteCliente(${cliente.id})">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16,9V4H8V9H2V11H4V21a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V11h2V9ZM10,18H8V13h2Zm4,0H12V13h2Zm4-7H6V6H18Z"/></svg>
                             </button>
                         </div>
                     </td>
-                </tr>
-            `;
+                </tr>`;
               clienteTableBody.insertAdjacentHTML('beforeend', row);
           });
-      } catch (error) {
-          console.error('Erro ao carregar a tabela de clientes:', error);
-      }
+      } catch (error) { console.error(error); }
   };
 
-  // --- NOVO: Funções do Modal ---
-  const openEditModal = (cliente) => {
-      // Preenche o formulário do *modal*
-      document.getElementById('editId').value = cliente.id;
-      document.getElementById('editNome').value = cliente.nome;
-      document.getElementById('editCpf').value = formatarCPF(cliente.cpf);
-      editModalOverlay.classList.add('active');
-  };
+  // --- Lógica do Relatório ---
+  const loadReportData = async (page) => {
+      const start = document.getElementById('filterDateStart').value;
+      const end = document.getElementById('filterDateEnd').value;
 
-  const closeEditModal = () => {
-      editModalOverlay.classList.remove('active');
-      editClienteForm.reset();
-  };
+      let url = `${API_REPORT_URL}?page=${page}&size=${pageSize}`;
+      if (start) url += `&dataInicio=${start}`;
+      if (end) url += `&dataFim=${end}`;
 
-  // Esta função (populateForm) agora serve APENAS ao autocomplete
-  const populateForm = (cliente) => {
-      document.getElementById('id').value = cliente.id;
-      document.getElementById('nome').value = cliente.nome;
-      document.getElementById('cpf').value = formatarCPF(cliente.cpf);
-  };
+      try {
+          const response = await fetch(url);
+          if (response.status === 404) { alert("Backend precisa ser atualizado!"); return; }
 
-  const clearForm = () => {
-      clienteForm.reset();
-      document.getElementById('id').value = ''; // Limpa o ID da sidebar
-      removerSugestoes();
-  };
+          const data = await response.json();
+          const clientes = data.content || [];
+          totalPages = data.totalPages || 1;
+          currentPage = data.number || 0;
 
-  // --- NOVO: Event Listener da Tabela (Ações) ---
-  clienteTableBody.addEventListener('click', async (e) => {
-      const button = e.target.closest('button[data-id]');
-      if (!button) return;
-      const clienteId = button.dataset.id;
-      const action = button.dataset.action;
-
-      if (action === 'edit') {
-          // --- Lógica de Edição (READ ONE) ---
-          try {
-              const response = await fetch(`${API_URL}/${clienteId}`);
-              if (response.ok) {
-                  const cliente = await response.json();
-                  openEditModal(cliente); // Abre o modal
-              } else {
-                  alert('Cliente não encontrado.');
-              }
-          } catch (error) {
-              console.error('Erro ao buscar cliente para edição:', error);
+          reportTableBody.innerHTML = '';
+          if (clientes.length === 0) {
+              reportTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center">Nenhum registro.</td></tr>';
+          } else {
+              clientes.forEach(c => {
+                  const row = `<tr><td>${c.id}</td><td>${c.nome}</td><td>${formatarCPF(c.cpf)}</td><td>${formatarData(c.dataCadastro)}</td></tr>`;
+                  reportTableBody.insertAdjacentHTML('beforeend', row);
+              });
           }
-      } else if (action === 'delete') {
-          // --- Lógica de Exclusão (DELETE) ---
-          if (!confirm('Tem certeza que deseja excluir este cliente?')) return;
-          try {
-              const response = await fetch(`${API_URL}/${clienteId}`, { method: 'DELETE' });
-              if (response.ok) {
-                  alert('Cliente excluído com sucesso!');
-                  fetchAndRenderTable();
-                  if (document.getElementById('id').value === clienteId) {
-                      clearForm(); // Limpa sidebar se o cliente excluído estava nela
-                  }
-              } else {
-                  alert('Erro ao excluir cliente.');
-              }
-          } catch (error) {
-              console.error('Erro ao excluir:', error);
-          }
-      }
+
+          pageInfo.textContent = `Página ${currentPage + 1} de ${totalPages}`;
+          btnPrevPage.disabled = currentPage === 0;
+          btnNextPage.disabled = currentPage >= totalPages - 1;
+      } catch (e) { console.error(e); }
+  };
+
+  // --- Listeners ---
+  btnOpenReport.addEventListener('click', () => {
+      reportModalOverlay.classList.add('active');
+      loadReportData(0);
   });
+  reportModalCloseBtn.addEventListener('click', () => reportModalOverlay.classList.remove('active'));
+  btnApplyFilters.addEventListener('click', () => loadReportData(0));
+  btnPrevPage.addEventListener('click', () => { if(currentPage > 0) loadReportData(currentPage - 1); });
+  btnNextPage.addEventListener('click', () => { if(currentPage < totalPages - 1) loadReportData(currentPage + 1); });
 
-  // --- CREATE / UPDATE (Formulário da Sidebar) ---
-  // Esta lógica permanece a mesma do código original
+  // Funções Globais (para os onclicks do HTML)
+  window.openEditCliente = async (id) => {
+      try {
+          const res = await fetch(`${API_URL}/${id}`);
+          if(res.ok) {
+              const c = await res.json();
+              document.getElementById('editId').value = c.id;
+              document.getElementById('editNome').value = c.nome;
+              document.getElementById('editCpf').value = formatarCPF(c.cpf);
+              editModalOverlay.classList.add('active');
+          }
+      } catch(e) {}
+  };
+
+  window.deleteCliente = async (id) => {
+      if(confirm('Excluir?')) {
+          await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+          fetchAndRenderTable();
+      }
+  };
+
+  // Modais e Forms
+  modalCloseBtn.addEventListener('click', () => editModalOverlay.classList.remove('active'));
+  btnCancelarEdit.addEventListener('click', () => editModalOverlay.classList.remove('active'));
+
   clienteForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const id = document.getElementById('id').value; // Pega o ID (se houver)
-      const clienteData = {
-          nome: document.getElementById('nome').value,
-          cpf: document.getElementById('cpf').value.replace(/\D/g, ''),
-      };
-      if (id) {
-          clienteData.id = id; // Adiciona ID para Update
-      }
-
-      try {
-          await fetch(API_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(clienteData),
-          });
-
-          clearForm();
-          fetchAndRenderTable();
-          alert(id ? 'Cliente atualizado com sucesso!' : 'Cliente cadastrado com sucesso!');
-      } catch (error) {
-          console.error('Erro ao salvar cliente:', error);
-          alert('Ocorreu um erro ao salvar o cliente.');
-      }
+      const data = { nome: document.getElementById('nome').value, cpf: document.getElementById('cpf').value.replace(/\D/g,'') };
+      await fetch(API_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+      clienteForm.reset(); fetchAndRenderTable(); alert('Salvo!');
   });
 
-  // --- NOVO: UPDATE (Formulário do Modal) ---
   editClienteForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // Pega dados do form do MODAL
-      const clienteData = {
-          id: document.getElementById('editId').value, // ID é obrigatório aqui
-          nome: document.getElementById('editNome').value,
-          cpf: document.getElementById('editCpf').value.replace(/\D/g, ''),
-      };
-
-      try {
-          const response = await fetch(API_URL, {
-              method: 'POST', // ou 'PUT', dependendo da sua API
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(clienteData),
-          });
-          if (!response.ok) throw new Error('Falha ao atualizar cliente');
-
-          closeEditModal();
-          fetchAndRenderTable();
-          alert('Cliente ATUALIZADO com sucesso!');
-
-          // Limpa o form da sidebar se o cliente editado estava lá
-          if (document.getElementById('id').value === clienteData.id) {
-              clearForm();
-          }
-      } catch (error) {
-          console.error('Erro ao atualizar cliente:', error);
-          alert(error.message);
-      }
+      const data = { id: document.getElementById('editId').value, nome: document.getElementById('editNome').value, cpf: document.getElementById('editCpf').value.replace(/\D/g,'') };
+      await fetch(API_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+      editModalOverlay.classList.remove('active'); fetchAndRenderTable(); alert('Atualizado!');
   });
 
+  btnLimpar.addEventListener('click', () => clienteForm.reset());
 
-  // --- Outros Event Listeners ---
-  btnLimpar.addEventListener('click', clearForm);
-
-  // NOVO: Listeners para fechar o modal
-  modalCloseBtn.addEventListener('click', closeEditModal);
-  btnCancelarEdit.addEventListener('click', closeEditModal);
-  editModalOverlay.addEventListener('click', (e) => {
-      // Fecha somente se clicar no fundo (overlay)
-      if (e.target === editModalOverlay) {
-          closeEditModal();
-      }
-  });
-
-
-  // --- DOMContentLoaded ---
+  // Inicialização
   document.addEventListener('DOMContentLoaded', () => {
       fetchAndRenderTable();
+      const mask = (e) => e.target.value = formatarCPF(e.target.value);
+      document.getElementById('cpf').addEventListener('input', mask);
+      document.getElementById('editCpf').addEventListener('input', mask);
 
-      //(Máscara CPF - Sidebar)
-      const inputCpf = document.getElementById('cpf');
-      inputCpf.addEventListener('input', (e) => {
-          e.target.value = formatarCPF(e.target.value);
-      });
-
-      // NOVO: (Máscara CPF - Modal)
-      const editInputCpf = document.getElementById('editCpf');
-      editInputCpf.addEventListener('input', (e) => {
-          e.target.value = formatarCPF(e.target.value);
-      });
-
-
-      //(Autocomplete - Sidebar)
       const inputNome = document.getElementById('nome');
       inputNome.addEventListener('input', () => {
-          const query = inputNome.value.toLowerCase();
+          const q = inputNome.value.toLowerCase();
           removerSugestoes();
-
-          if (query.length < 1) return;
-
-          const sugestoes = allClientes.filter(cliente =>
-              cliente.nome.toLowerCase().includes(query)
-          ).slice(0, 5);
-
-          if (sugestoes.length > 0) {
-              const suggestionsContainer = document.createElement('div');
-              suggestionsContainer.className = 'search-results';
-              suggestionsContainer.id = 'autocomplete-results';
-
-              sugestoes.forEach(cliente => {
-                  const item = document.createElement('div');
-                  item.className = 'result-item';
-                  item.textContent = cliente.nome;
-
-                  // CORREÇÃO DE BUG: Adicionado populateForm aqui
-                  item.addEventListener('click', () => {
-                      populateForm(cliente); // Preenche a sidebar
+          if(q.length < 1) return;
+          const res = allClientes.filter(c => c.nome.toLowerCase().includes(q)).slice(0,5);
+          if(res.length > 0) {
+              const div = document.createElement('div'); div.className = 'search-results'; div.id = 'autocomplete-results';
+              res.forEach(c => {
+                  const item = document.createElement('div'); item.className = 'result-item'; item.textContent = c.nome;
+                  item.onclick = () => {
+                      document.getElementById('id').value = c.id;
+                      document.getElementById('nome').value = c.nome;
+                      document.getElementById('cpf').value = formatarCPF(c.cpf);
                       removerSugestoes();
-                  });
-
-                  suggestionsContainer.appendChild(item);
+                  };
+                  div.appendChild(item);
               });
-
-              inputNome.parentNode.insertBefore(suggestionsContainer, inputNome.nextSibling);
+              inputNome.parentNode.insertBefore(div, inputNome.nextSibling);
           }
       });
-
-      //Fechar sugestões se o usuário clicar fora do campo
-      document.addEventListener('click', (e) => {
-          if (e.target.id !== 'nome') {
-              removerSugestoes();
-          }
-      });
+      document.addEventListener('click', (e) => { if(e.target.id !== 'nome') removerSugestoes(); });
   });
 </script>
 
