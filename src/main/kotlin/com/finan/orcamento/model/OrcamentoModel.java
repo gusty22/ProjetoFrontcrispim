@@ -2,10 +2,12 @@ package com.finan.orcamento.model;
 
 import com.finan.orcamento.model.enums.IcmsEstados;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -25,11 +27,14 @@ public class OrcamentoModel implements Serializable {
     @Column(name="valor_icms")
     private BigDecimal valorICMS;
 
+    @CreationTimestamp
+    @Column(name = "data_criacao", updatable = false)
+    private LocalDate dataCriacao;
+
     @ManyToOne
     @JoinColumn(name="usuario_id", referencedColumnName = "id")
     private UsuarioModel usuario;
 
-    // Relacionamento com Cliente
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private ClienteModel cliente;
@@ -42,7 +47,6 @@ public class OrcamentoModel implements Serializable {
 
     public OrcamentoModel(){}
 
-    // Construtor completo
     public OrcamentoModel(Long id, IcmsEstados icmsEstados, @NotNull BigDecimal valorOrcamento, BigDecimal valorICMS, UsuarioModel usuario, ClienteModel cliente) {
         this.id = id;
         this.icmsEstados = icmsEstados;
@@ -53,54 +57,20 @@ public class OrcamentoModel implements Serializable {
     }
 
     // Getters e Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public IcmsEstados getIcmsEstados() {
-        return icmsEstados;
-    }
-
-    public void setIcmsEstados(IcmsEstados icmsEstados) {
-        this.icmsEstados = icmsEstados;
-    }
-
-    @NotNull
-    public BigDecimal getValorOrcamento() {
-        return valorOrcamento;
-    }
-
-    public void setValorOrcamento(@NotNull BigDecimal valorOrcamento) {
-        this.valorOrcamento = valorOrcamento;
-    }
-
-    public BigDecimal getValorICMS() {
-        return valorICMS;
-    }
-
-    public void setValorICMS(BigDecimal valorICMS) {
-        this.valorICMS = valorICMS;
-    }
-
-    public UsuarioModel getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(UsuarioModel usuario) {
-        this.usuario = usuario;
-    }
-
-    public ClienteModel getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(ClienteModel cliente) {
-        this.cliente = cliente;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public IcmsEstados getIcmsEstados() { return icmsEstados; }
+    public void setIcmsEstados(IcmsEstados icmsEstados) { this.icmsEstados = icmsEstados; }
+    public BigDecimal getValorOrcamento() { return valorOrcamento; }
+    public void setValorOrcamento(BigDecimal valorOrcamento) { this.valorOrcamento = valorOrcamento; }
+    public BigDecimal getValorICMS() { return valorICMS; }
+    public void setValorICMS(BigDecimal valorICMS) { this.valorICMS = valorICMS; }
+    public LocalDate getDataCriacao() { return dataCriacao; }
+    public void setDataCriacao(LocalDate dataCriacao) { this.dataCriacao = dataCriacao; }
+    public UsuarioModel getUsuario() { return usuario; }
+    public void setUsuario(UsuarioModel usuario) { this.usuario = usuario; }
+    public ClienteModel getCliente() { return cliente; }
+    public void setCliente(ClienteModel cliente) { this.cliente = cliente; }
 
     @Override
     public boolean equals(Object o) {
@@ -111,7 +81,5 @@ public class OrcamentoModel implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+    public int hashCode() { return Objects.hashCode(id); }
 }

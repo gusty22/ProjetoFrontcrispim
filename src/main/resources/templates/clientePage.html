@@ -1,327 +1,360 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cadastro de Clientes</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastro de Clientes</title>
 
-  <style>
-    /* 1. Importação da Fonte e Variáveis de Cor */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    <style>
+        /* 1. Importação da Fonte e Variáveis de Cor */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-    :root {
-        --cor-fundo: #f8f9fa;
-        --cor-superficie: #ffffff;
-        --cor-primaria: #4C6EF5;
-        --cor-primaria-hover: #405ED6;
-        --cor-texto-primario: #212529;
-        --cor-texto-secundario: #6c757d;
-        --cor-borda: #e9ecef;
-        --cor-perigo: #e03131;
-        --cor-info: #17a2b8;
-        --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
+        :root {
+            --cor-fundo: #f8f9fa;            /* Cinza muito claro */
+            --cor-superficie: #ffffff;       /* Branco (para os cards) */
+            --cor-primaria: #4C6EF5;         /* Azul moderno */
+            --cor-primaria-hover: #405ED6;   /* Azul mais escuro (hover) */
+            --cor-texto-primario: #212529;   /* Preto suave */
+            --cor-texto-secundario: #6c757d; /* Cinza médio */
+            --cor-borda: #e9ecef;            /* Cinza claro para bordas */
+            --cor-perigo: #e03131;           /* Vermelho suave */
+            --cor-info: #17a2b8;             /* Azul-petróleo (Editar) */
+            --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
 
-    /* 2. Reset e Estilos Globais */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        background-color: var(--cor-fundo);
-        color: var(--cor-texto-primario);
-        line-height: 1.6;
-    }
+        /* 2. Reset e Estilos Globais */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto-primario);
+            line-height: 1.6;
+        }
 
-    /* 3. Navegação */
-    .navbar {
-        background-color: var(--cor-superficie);
-        padding: 1rem 2.5rem;
-        border-bottom: 1px solid var(--cor-borda);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: var(--sombra-card);
-    }
-    .navbar .logo { font-weight: 700; font-size: 1.5rem; color: var(--cor-primaria); text-decoration: none; }
-    .navbar .nav-links a { color: var(--cor-texto-secundario); text-decoration: none; margin-left: 2rem; font-weight: 500; transition: color 0.2s ease-in-out; }
-    .navbar .nav-links a:hover { color: var(--cor-texto-primario); }
-    .navbar .nav-links a.active { color: var(--cor-primaria); font-weight: 600; }
+        /* 3. Navegação */
+        .navbar {
+            background-color: var(--cor-superficie);
+            padding: 1rem 2.5rem;
+            border-bottom: 1px solid var(--cor-borda);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--sombra-card);
+        }
+        .navbar .logo { font-weight: 700; font-size: 1.5rem; color: var(--cor-primaria); text-decoration: none; }
+        .navbar .nav-links a { color: var(--cor-texto-secundario); text-decoration: none; margin-left: 2rem; font-weight: 500; transition: color 0.2s ease-in-out; }
+        .navbar .nav-links a:hover { color: var(--cor-texto-primario); }
+        .navbar .nav-links a.active { color: var(--cor-primaria); font-weight: 600; }
 
-    /* 4. Layout Principal e Cards */
-    .container { max-width: 1300px; margin: 2.5rem auto; padding: 0 2rem; }
-    .main-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: flex-start; }
-    .card {
-        background-color: var(--cor-superficie);
-        border: 1px solid var(--cor-borda);
-        border-radius: 12px;
-        padding: 2.5rem;
-        box-shadow: var(--sombra-card);
-    }
-    .card-title {
-        font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 600;
-        color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda); padding-bottom: 1rem;
-    }
+        /* 4. Layout Principal e Cards */
+        .container { max-width: 1300px; margin: 2.5rem auto; padding: 0 2rem; }
+        .main-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: flex-start; }
+        .card {
+            background-color: var(--cor-superficie);
+            border: 1px solid var(--cor-borda);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: var(--sombra-card);
+        }
+        .card-title {
+            font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 600;
+            color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda); padding-bottom: 1rem;
+        }
 
-    /* 5. Formulários */
-    label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--cor-texto-secundario); font-size: 0.9rem; }
-    input, select {
-        width: 100%; padding: 0.75rem 1rem; margin-bottom: 1.5rem;
-        background-color: var(--cor-fundo); border: 1px solid var(--cor-borda); border-radius: 8px;
-        color: var(--cor-texto-primario); font-size: 1rem; font-family: 'Inter', sans-serif;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    input:focus, select:focus { outline: none; border-color: var(--cor-primaria); box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.2); }
-    .form-actions { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        /* 5. Formulários */
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--cor-texto-secundario); font-size: 0.9rem; }
+        input, select {
+            width: 100%; padding: 0.75rem 1rem; margin-bottom: 1.5rem;
+            background-color: var(--cor-fundo); border: 1px solid var(--cor-borda); border-radius: 8px;
+            color: var(--cor-texto-primario); font-size: 1rem; font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--cor-primaria); box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.2); }
+        .form-actions { display: flex; gap: 1rem; margin-top: 1.5rem; }
 
-    /* 6. Botões */
-    button {
-        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-        padding: 0.75rem 1.5rem; font-size: 0.95rem; border-radius: 8px;
-        cursor: pointer; border: none; transition: filter 0.2s ease-in-out;
-        font-weight: 600; font-family: 'Inter', sans-serif;
-    }
-    button svg { width: 16px; height: 16px; }
-    .btn-primary { background-color: var(--cor-primaria); color: #ffffff; }
-    .btn-primary:hover { filter: brightness(90%); }
-    .btn-secondary { background-color: var(--cor-borda); color: var(--cor-texto-secundario); font-weight: 500; }
-    .btn-secondary:hover { background-color: #dce1e6; }
-    .btn-danger { background-color: var(--cor-perigo); color: #ffffff; }
-    .btn-danger:hover { filter: brightness(90%); }
-    .btn-info { background-color: var(--cor-info); color: #ffffff; }
-    .btn-info:hover { filter: brightness(90%); }
-    .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+        /* 6. Botões */
+        button {
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            padding: 0.75rem 1.5rem; font-size: 0.95rem; border-radius: 8px;
+            cursor: pointer; border: none; transition: filter 0.2s ease-in-out;
+            font-weight: 600; font-family: 'Inter', sans-serif;
+        }
+        button svg { width: 16px; height: 16px; }
+        .btn-primary { background-color: var(--cor-primaria); color: #ffffff; }
+        .btn-primary:hover { filter: brightness(90%); }
+        .btn-secondary { background-color: var(--cor-borda); color: var(--cor-texto-secundario); font-weight: 500; }
+        .btn-secondary:hover { background-color: #dce1e6; }
+        .btn-danger { background-color: var(--cor-perigo); color: #ffffff; }
+        .btn-danger:hover { filter: brightness(90%); }
+        .btn-info { background-color: var(--cor-info); color: #ffffff; }
+        .btn-info:hover { filter: brightness(90%); }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
 
-    /* 7. Tabela */
-    table { width: 100%; border-collapse: collapse; color: var(--cor-texto-secundario); }
-    th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--cor-borda); }
-    thead th { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--cor-texto-secundario); background-color: var(--cor-fundo); }
-    tbody tr:hover { background-color: #fcfcfd; }
-    tbody td { font-size: 0.95rem; color: var(--cor-texto-primario); }
-    .action-buttons { display: flex; gap: 0.5rem; }
+        /* 7. Tabela */
+        table { width: 100%; border-collapse: collapse; color: var(--cor-texto-secundario); }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--cor-borda); }
+        thead th { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--cor-texto-secundario); background-color: var(--cor-fundo); }
+        tbody tr:hover { background-color: #fcfcfd; }
+        tbody td { font-size: 0.95rem; color: var(--cor-texto-primario); }
+        .action-buttons { display: flex; gap: 0.5rem; }
 
-    /* 8. Componentes Específicos */
-    .search-results { background-color: var(--cor-superficie); border: 1px solid var(--cor-borda); border-radius: 8px; max-height: 160px; overflow-y: auto; margin-top: -1rem; box-shadow: var(--sombra-card); }
-    .result-item { padding: 0.75rem 1rem; cursor: pointer; font-size: 0.95rem; transition: background-color 0.2s ease; }
-    .result-item:hover { background-color: #f1f3f5; }
-    .result-item:not(:last-child) { border-bottom: 1px solid var(--cor-borda); }
+        /* 8. Componentes Específicos */
+        .search-results { background-color: var(--cor-superficie); border: 1px solid var(--cor-borda); border-radius: 8px; max-height: 160px; overflow-y: auto; margin-top: -1rem; box-shadow: var(--sombra-card); }
+        .result-item { padding: 0.75rem 1rem; cursor: pointer; font-size: 0.95rem; transition: background-color 0.2s ease; }
+        .result-item:hover { background-color: #f1f3f5; }
+        .result-item:not(:last-child) { border-bottom: 1px solid var(--cor-borda); }
 
-    /* 9. Estilos dos Modais */
-    .modal-overlay {
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(33, 37, 41, 0.5); display: none;
-        align-items: center; justify-content: center; z-index: 1000;
-        opacity: 0; transition: opacity 0.2s ease-in-out;
-    }
-    .modal-overlay.active { display: flex; opacity: 1; }
-    .modal-content {
-        background-color: var(--cor-superficie); border-radius: 12px;
-        padding: 2.5rem; box-shadow: var(--sombra-card);
-        width: 95%; max-width: 900px; /* Mais largo para relatório */
-        position: relative; z-index: 1001;
-        transform: scale(0.95); transition: transform 0.2s ease-in-out;
-        max-height: 90vh; overflow-y: auto;
-    }
-    .modal-overlay.active .modal-content { transform: scale(1); }
-    .modal-header {
-        display: flex; justify-content: space-between; align-items: center;
-        font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 600;
-        color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda);
-        padding-bottom: 1rem;
-    }
-    .modal-close { font-size: 2.5rem; font-weight: 300; color: var(--cor-texto-secundario); cursor: pointer; line-height: 1; border: none; background: transparent; padding: 0; }
-    .modal-close:hover { color: var(--cor-texto-primario); }
+        /* 9. Estilos dos Modais */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(33, 37, 41, 0.5); display: none;
+            align-items: center; justify-content: center; z-index: 1000;
+            opacity: 0; transition: opacity 0.2s ease-in-out;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content {
+            background-color: var(--cor-superficie); border-radius: 12px;
+            padding: 2.5rem; box-shadow: var(--sombra-card);
+            width: 95%; max-width: 900px;
+            position: relative; z-index: 1001;
+            transform: scale(0.95); transition: transform 0.2s ease-in-out;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 600;
+            color: var(--cor-texto-primario); border-bottom: 1px solid var(--cor-borda);
+            padding-bottom: 1rem;
+        }
+        .modal-close { font-size: 2.5rem; font-weight: 300; color: var(--cor-texto-secundario); cursor: pointer; line-height: 1; border: none; background: transparent; padding: 0; }
+        .modal-close:hover { color: var(--cor-texto-primario); }
 
-    /* 10. Estilos Específicos do Relatório */
-    .filter-grid {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-        margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--cor-borda);
-    }
-    .pagination-controls {
-        display: flex; justify-content: space-between; align-items: center;
-        margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--cor-borda);
-    }
-    .page-info { font-size: 0.9rem; color: var(--cor-texto-secundario); }
+        /* 10. Estilos Específicos do Relatório */
+        .filter-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+            margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--cor-borda);
+        }
+        .pagination-controls {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--cor-borda);
+        }
+        .page-info { font-size: 0.9rem; color: var(--cor-texto-secundario); }
 
-    /* Responsividade */
-    @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } }
-    @media (max-width: 768px) { body { font-size: 14px; } .filter-grid { grid-template-columns: 1fr; } }
-  </style>
+        /* Responsividade */
+        @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { body { font-size: 14px; } .filter-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
 
 <nav class="navbar">
-  <a href="#" class="logo">GustySystem</a>
-  <div class="nav-links">
-    <a href="/orcamentos">Orçamentos</a>
-    <a href="/usuarios">Usuários</a>
-    <a href="/clientes" class="active">Clientes</a>
-  </div>
+    <a href="#" class="logo">GustySystem</a>
+    <div class="nav-links">
+        <a href="/orcamentos">Orçamentos</a>
+        <a href="/usuarios">Usuários</a>
+        <a href="/clientes" class="active">Clientes</a>
+    </div>
 </nav>
 
 <div class="container">
-  <div class="main-grid">
-    <aside class="card">
-      <h2 class="card-title">Gerenciar Cliente</h2>
-      <form id="clienteForm">
-        <input type="hidden" id="id">
-        <label for="nome">Nome do Cliente</label>
-        <input type="text" id="nome" required placeholder="Nome completo">
-        <label for="cpf">CPF</label>
-        <input type="text" id="cpf" required placeholder="000.000.000-00">
-        <div class="form-actions" style="flex-wrap: wrap;">
-          <button id="salvarCliente" type="submit" class="btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19,9H5a1,1,0,0,0-1,1V19a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V10A1,1,0,0,0,19,9ZM7,17a1,1,0,1,1,1-1A1,1,0,0,1,7,17ZM17,7H7V4H17Z"/></svg>
-            Salvar
-          </button>
-          <button id="btnLimpar" type="button" class="btn-secondary">Limpar</button>
+    <div class="main-grid">
+        <aside class="card">
+            <h2 class="card-title">Gerenciar Cliente</h2>
+            <form id="clienteForm">
+                <input type="hidden" id="id">
+                <label for="nome">Nome do Cliente</label>
+                <input type="text" id="nome" required placeholder="Nome completo">
+                <div class="search-results" id="autocomplete-results" style="display: none;"></div> <!-- Container Autocomplete -->
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" required placeholder="000.000.000-00">
+                <div class="form-actions" style="flex-wrap: wrap;">
+                    <button id="salvarCliente" type="submit" class="btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19,9H5a1,1,0,0,0-1,1V19a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V10A1,1,0,0,0,19,9ZM7,17a1,1,0,1,1,1-1A1,1,0,0,1,7,17ZM17,7H7V4H17Z"/></svg>
+                        Salvar
+                    </button>
+                    <button id="btnLimpar" type="button" class="btn-secondary">Limpar</button>
 
-          <button id="btnOpenReport" type="button" class="btn-info" style="width: 100%; margin-top: 1rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14,2H6A2,2,0,0,0,4,4V20A2,2,0,0,0,6,22H18A2,2,0,0,0,20,20V8L14,2M18,20H6V4H13V9H18V20M16,11V18.1L13.9,16L11.1,18.8L8.3,16L6.2,18.1L3.4,15.3L5.5,13.2L8.3,16L11.1,13.2L13.9,16L16,13.9L18.8,16.7L16,19.5V11H16Z"/></svg>
-            Relatórios Avançados
-          </button>
-        </div>
-      </form>
-    </aside>
+                    <button id="btnOpenReport" type="button" class="btn-info" style="width: 100%; margin-top: 1rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14,2H6A2,2,0,0,0,4,4V20A2,2,0,0,0,6,22H18A2,2,0,0,0,20,20V8L14,2M18,20H6V4H13V9H18V20M16,11V18.1L13.9,16L11.1,18.8L8.3,16L6.2,18.1L3.4,15.3L5.5,13.2L8.3,16L11.1,13.2L13.9,16L16,13.9L18.8,16.7L16,19.5V11H16Z"/></svg>
+                        Relatórios Avançados
+                    </button>
+                </div>
+            </form>
+        </aside>
 
-    <main class="card">
-      <h2 class="card-title">Clientes Cadastrados</h2>
-      <table>
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>CPF</th>
-          <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody id="clienteTableBody"></tbody>
-      </table>
-    </main>
-  </div>
+        <main class="card">
+            <h2 class="card-title">Clientes Cadastrados</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody id="clienteTableBody"></tbody>
+            </table>
+        </main>
+    </div>
 </div>
 
+<!-- MODAL DE EDIÇÃO -->
 <div class="modal-overlay" id="editModalOverlay">
-  <div class="modal-content" style="max-width: 600px;">
-    <div class="modal-header">
-      <h2 class="card-title" style="margin-bottom: 0; border: none; padding: 0;">Editar Cliente</h2>
-      <button class="modal-close" id="modalCloseBtn">&times;</button>
+    <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-header">
+            <h2 class="card-title" style="margin-bottom: 0; border: none; padding: 0;">Editar Cliente</h2>
+            <button class="modal-close" id="modalCloseBtn">&times;</button>
+        </div>
+        <form id="editClienteForm" style="margin-top: 1.5rem;">
+            <input type="hidden" id="editId">
+            <label for="editNome">Nome do Cliente</label>
+            <input type="text" id="editNome" required placeholder="Nome completo">
+            <label for="editCpf">CPF</label>
+            <input type="text" id="editCpf" required placeholder="000.000.000-00">
+            <div class="form-actions">
+                <button id="salvarEditCliente" type="submit" class="btn-primary">Atualizar</button>
+                <button id="btnCancelarEdit" type="button" class="btn-secondary">Cancelar</button>
+            </div>
+        </form>
     </div>
-    <form id="editClienteForm" style="margin-top: 1.5rem;">
-      <input type="hidden" id="editId">
-      <label for="editNome">Nome do Cliente</label>
-      <input type="text" id="editNome" required placeholder="Nome completo">
-      <label for="editCpf">CPF</label>
-      <input type="text" id="editCpf" required placeholder="000.000.000-00">
-      <div class="form-actions">
-        <button id="salvarEditCliente" type="submit" class="btn-primary">Atualizar</button>
-        <button id="btnCancelarEdit" type="button" class="btn-secondary">Cancelar</button>
-      </div>
-    </form>
-  </div>
 </div>
 
+<!-- MODAL DE RELATÓRIO -->
 <div class="modal-overlay" id="reportModalOverlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 class="card-title" style="margin-bottom: 0; border: none; padding: 0;">Relatório de Clientes</h2>
-      <button class="modal-close" id="reportModalCloseBtn">&times;</button>
-    </div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="card-title" style="margin-bottom: 0; border: none; padding: 0;">Relatório de Clientes</h2>
+            <button class="modal-close" id="reportModalCloseBtn">&times;</button>
+        </div>
 
-    <div class="filter-grid">
-      <div>
-        <label style="margin-bottom: 0.2rem; font-size: 0.85rem;">Data Cadastro (Início)</label>
-        <input type="date" id="filterDateStart" style="margin-bottom: 0;">
-      </div>
-      <div>
-        <label style="margin-bottom: 0.2rem; font-size: 0.85rem;">Data Cadastro (Fim)</label>
-        <input type="date" id="filterDateEnd" style="margin-bottom: 0;">
-      </div>
-    </div>
-    <div style="margin-bottom: 1.5rem; display: flex; justify-content: flex-end;">
-      <button id="btnApplyFilters" class="btn-primary btn-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10,18H14V16H10V18ZM3,6V8H21V6H3ZM6,13H18V11H6V13Z"/></svg>
-        Filtrar
-      </button>
-    </div>
+        <div class="filter-grid">
+            <!-- FILTRO POR NOME (Ocupa largura total) -->
+            <div style="grid-column: 1 / -1;">
+                <label style="margin-bottom: 0.2rem; font-size: 0.85rem;">Nome do Cliente (Contém)</label>
+                <input type="text" id="filterName" placeholder="Ex: Maria" style="margin-bottom: 0;">
+            </div>
 
-    <table>
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>CPF</th>
-        <th>Data Cadastro</th>
-      </tr>
-      </thead>
-      <tbody id="reportTableBody"></tbody>
-    </table>
+            <!-- FILTRO POR DATA -->
+            <div>
+                <label style="margin-bottom: 0.2rem; font-size: 0.85rem;">Data Cadastro (Início)</label>
+                <input type="date" id="filterDateStart" style="margin-bottom: 0;">
+            </div>
+            <div>
+                <label style="margin-bottom: 0.2rem; font-size: 0.85rem;">Data Cadastro (Fim)</label>
+                <input type="date" id="filterDateEnd" style="margin-bottom: 0;">
+            </div>
 
-    <div class="pagination-controls">
-      <button id="btnPrevPage" class="btn-secondary btn-sm" disabled>Anterior</button>
-      <span class="page-info" id="pageInfo">Página 1</span>
-      <button id="btnNextPage" class="btn-secondary btn-sm">Próximo</button>
+            <!-- FILTRO POR VALOR -->
+            <div>
+                <label style="margin-bottom: 0.2rem; font-size: 0.85rem;">Total Gasto (Mín R$)</label>
+                <input type="number" id="filterValMin" placeholder="Ex: 100.00" step="0.01" style="margin-bottom: 0;">
+            </div>
+            <div>
+                <label style="margin-bottom: 0.2rem; font-size: 0.85rem;">Total Gasto (Máx R$)</label>
+                <input type="number" id="filterValMax" placeholder="Ex: 5000.00" step="0.01" style="margin-bottom: 0;">
+            </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem; display: flex; justify-content: flex-end;">
+            <button id="btnApplyFilters" class="btn-primary btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10,18H14V16H10V18ZM3,6V8H21V6H3ZM6,13H18V11H6V13Z"/></svg>
+                Filtrar
+            </button>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Data Cadastro</th>
+                <th>Total Gasto</th>
+            </tr>
+            </thead>
+            <tbody id="reportTableBody"></tbody>
+        </table>
+
+        <div class="pagination-controls">
+            <button id="btnPrevPage" class="btn-secondary btn-sm" disabled>Anterior</button>
+            <span class="page-info" id="pageInfo">Página 1</span>
+            <button id="btnNextPage" class="btn-secondary btn-sm">Próximo</button>
+        </div>
     </div>
-  </div>
 </div>
 
 <script>
-  const API_URL = '/api/clientes';
-  const API_REPORT_URL = '/api/clientes/relatorio'; // URL nova
+    const API_URL = '/api/clientes';
+    const API_REPORT_URL = '/api/clientes/relatorio';
 
-  // Elementos CRUD
-  const clienteTableBody = document.getElementById('clienteTableBody');
-  const clienteForm = document.getElementById('clienteForm');
-  const btnLimpar = document.getElementById('btnLimpar');
+    // Elementos CRUD
+    const clienteTableBody = document.getElementById('clienteTableBody');
+    const clienteForm = document.getElementById('clienteForm');
+    const btnLimpar = document.getElementById('btnLimpar');
 
-  // Elementos Modal Edição
-  const editModalOverlay = document.getElementById('editModalOverlay');
-  const editClienteForm = document.getElementById('editClienteForm');
-  const modalCloseBtn = document.getElementById('modalCloseBtn');
-  const btnCancelarEdit = document.getElementById('btnCancelarEdit');
+    // Elementos Modal Edição
+    const editModalOverlay = document.getElementById('editModalOverlay');
+    const editClienteForm = document.getElementById('editClienteForm');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const btnCancelarEdit = document.getElementById('btnCancelarEdit');
 
-  // Elementos Relatório
-  const btnOpenReport = document.getElementById('btnOpenReport');
-  const reportModalOverlay = document.getElementById('reportModalOverlay');
-  const reportModalCloseBtn = document.getElementById('reportModalCloseBtn');
-  const reportTableBody = document.getElementById('reportTableBody');
-  const btnApplyFilters = document.getElementById('btnApplyFilters');
-  const btnPrevPage = document.getElementById('btnPrevPage');
-  const btnNextPage = document.getElementById('btnNextPage');
-  const pageInfo = document.getElementById('pageInfo');
+    // Elementos Relatório
+    const btnOpenReport = document.getElementById('btnOpenReport');
+    const reportModalOverlay = document.getElementById('reportModalOverlay');
+    const reportModalCloseBtn = document.getElementById('reportModalCloseBtn');
+    const reportTableBody = document.getElementById('reportTableBody');
+    const btnApplyFilters = document.getElementById('btnApplyFilters');
+    const btnPrevPage = document.getElementById('btnPrevPage');
+    const btnNextPage = document.getElementById('btnNextPage');
+    const pageInfo = document.getElementById('pageInfo');
 
-  let allClientes = [];
-  let currentPage = 0;
-  let pageSize = 20;
-  let totalPages = 0;
+    let allClientes = [];
+    let currentPage = 0;
+    let pageSize = 20;
+    let totalPages = 0;
 
-  // --- Utils ---
-  const formatarCPF = (cpf) => {
-      if (!cpf) return '';
-      let v = cpf.replace(/\D/g, ''); v = v.substring(0, 11);
-      v = v.replace(/(\d{3})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d)/, '$1.$2');
-      v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); return v;
-  };
+    // --- Utils ---
+    const formatarCPF = (cpf) => {
+        if (!cpf) return '';
+        let v = cpf.replace(/\D/g, '');
+        v = v.substring(0, 11);
+        v = v.replace(/(\d{3})(\d)/, '$1.$2');
+        v = v.replace(/(\d{3})(\d)/, '$1.$2');
+        v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        return v;
+    };
 
-  const formatarData = (dataStr) => {
-      if (!dataStr) return '-';
-      return new Date(dataStr).toLocaleDateString('pt-BR');
-  };
+    const formatarData = (dataStr) => {
+        if (!dataStr) return '-';
+        return new Date(dataStr).toLocaleDateString('pt-BR');
+    };
 
-  const removerSugestoes = () => {
-      const old = document.getElementById('autocomplete-results');
-      if (old) old.remove();
-  };
+    const formatarMoeda = (valor) => {
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor || 0);
+    };
 
-  // --- CRUD Principal ---
-  const fetchAndRenderTable = async () => {
-      try {
-          const response = await fetch(API_URL);
-          if (!response.ok) throw new Error('Erro buscar');
-          allClientes = await response.json();
-          clienteTableBody.innerHTML = '';
+    const removerSugestoes = () => {
+        const old = document.getElementById('autocomplete-results');
+        if (old) old.innerHTML = ''; // Limpa conteúdo em vez de remover elemento se ele for estático
+        // Se for dinâmico: if(old) old.remove();
+        // Neste código, o div#autocomplete-results está no HTML estático, então:
+        const container = document.querySelector('.search-results');
+        if(container) { container.innerHTML = ''; container.style.display = 'none'; }
+    };
 
-          // Exibe apenas os 10 últimos cadastrados na tela inicial
-          allClientes.slice(-10).reverse().forEach(cliente => {
-              const row = `
+    // --- CRUD Principal ---
+    const fetchAndRenderTable = async () => {
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error('Erro buscar');
+            allClientes = await response.json();
+            clienteTableBody.innerHTML = '';
+
+            // Exibe apenas os 10 últimos cadastrados na tela inicial
+            allClientes.slice(-10).reverse().forEach(cliente => {
+                const row = `
                 <tr>
                     <td>${cliente.id}</td>
                     <td>${cliente.nome}</td>
@@ -337,126 +370,142 @@
                         </div>
                     </td>
                 </tr>`;
-              clienteTableBody.insertAdjacentHTML('beforeend', row);
-          });
-      } catch (error) { console.error(error); }
-  };
+                clienteTableBody.insertAdjacentHTML('beforeend', row);
+            });
+        } catch (error) { console.error(error); }
+    };
 
-  // --- Lógica do Relatório ---
-  const loadReportData = async (page) => {
-      const start = document.getElementById('filterDateStart').value;
-      const end = document.getElementById('filterDateEnd').value;
+    // --- Lógica do Relatório (Com filtro de valor e nome) ---
+    const loadReportData = async (page) => {
+        const nome = document.getElementById('filterName').value;
+        const start = document.getElementById('filterDateStart').value;
+        const end = document.getElementById('filterDateEnd').value;
+        const vMin = document.getElementById('filterValMin').value;
+        const vMax = document.getElementById('filterValMax').value;
 
-      let url = `${API_REPORT_URL}?page=${page}&size=${pageSize}`;
-      if (start) url += `&dataInicio=${start}`;
-      if (end) url += `&dataFim=${end}`;
+        let url = `${API_REPORT_URL}?page=${page}&size=${pageSize}`;
+        if (nome) url += `&nome=${encodeURIComponent(nome)}`;
+        if (start) url += `&dataInicio=${start}`;
+        if (end) url += `&dataFim=${end}`;
+        if (vMin) url += `&valorMin=${vMin}`;
+        if (vMax) url += `&valorMax=${vMax}`;
 
-      try {
-          const response = await fetch(url);
-          if (response.status === 404) { alert("Backend precisa ser atualizado!"); return; }
+        try {
+            const response = await fetch(url);
+            if (response.status === 404) { alert("Backend precisa ser atualizado!"); return; }
 
-          const data = await response.json();
-          const clientes = data.content || [];
-          totalPages = data.totalPages || 1;
-          currentPage = data.number || 0;
+            const data = await response.json();
+            const clientes = data.content || [];
+            totalPages = data.totalPages || 1;
+            currentPage = data.number || 0;
 
-          reportTableBody.innerHTML = '';
-          if (clientes.length === 0) {
-              reportTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center">Nenhum registro.</td></tr>';
-          } else {
-              clientes.forEach(c => {
-                  const row = `<tr><td>${c.id}</td><td>${c.nome}</td><td>${formatarCPF(c.cpf)}</td><td>${formatarData(c.dataCadastro)}</td></tr>`;
-                  reportTableBody.insertAdjacentHTML('beforeend', row);
-              });
-          }
+            reportTableBody.innerHTML = '';
+            if (clientes.length === 0) {
+                reportTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center">Nenhum registro encontrado.</td></tr>';
+            } else {
+                clientes.forEach(c => {
+                    const row = `<tr>
+                        <td>${c.id}</td>
+                        <td>${c.nome}</td>
+                        <td>${formatarCPF(c.cpf)}</td>
+                        <td>${formatarData(c.dataCadastro)}</td>
+                        <td>${formatarMoeda(c.totalGasto)}</td>
+                    </tr>`;
+                    reportTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            }
 
-          pageInfo.textContent = `Página ${currentPage + 1} de ${totalPages}`;
-          btnPrevPage.disabled = currentPage === 0;
-          btnNextPage.disabled = currentPage >= totalPages - 1;
-      } catch (e) { console.error(e); }
-  };
+            pageInfo.textContent = `Página ${currentPage + 1} de ${totalPages}`;
+            btnPrevPage.disabled = currentPage === 0;
+            btnNextPage.disabled = currentPage >= totalPages - 1;
+        } catch (e) { console.error(e); }
+    };
 
-  // --- Listeners ---
-  btnOpenReport.addEventListener('click', () => {
-      reportModalOverlay.classList.add('active');
-      loadReportData(0);
-  });
-  reportModalCloseBtn.addEventListener('click', () => reportModalOverlay.classList.remove('active'));
-  btnApplyFilters.addEventListener('click', () => loadReportData(0));
-  btnPrevPage.addEventListener('click', () => { if(currentPage > 0) loadReportData(currentPage - 1); });
-  btnNextPage.addEventListener('click', () => { if(currentPage < totalPages - 1) loadReportData(currentPage + 1); });
+    // --- Listeners ---
+    btnOpenReport.addEventListener('click', () => {
+        reportModalOverlay.classList.add('active');
+        loadReportData(0);
+    });
+    reportModalCloseBtn.addEventListener('click', () => reportModalOverlay.classList.remove('active'));
+    btnApplyFilters.addEventListener('click', () => loadReportData(0));
+    btnPrevPage.addEventListener('click', () => { if(currentPage > 0) loadReportData(currentPage - 1); });
+    btnNextPage.addEventListener('click', () => { if(currentPage < totalPages - 1) loadReportData(currentPage + 1); });
 
-  // Funções Globais (para os onclicks do HTML)
-  window.openEditCliente = async (id) => {
-      try {
-          const res = await fetch(`${API_URL}/${id}`);
-          if(res.ok) {
-              const c = await res.json();
-              document.getElementById('editId').value = c.id;
-              document.getElementById('editNome').value = c.nome;
-              document.getElementById('editCpf').value = formatarCPF(c.cpf);
-              editModalOverlay.classList.add('active');
-          }
-      } catch(e) {}
-  };
+    // Funções Globais
+    window.openEditCliente = async (id) => {
+        try {
+            const res = await fetch(`${API_URL}/${id}`);
+            if(res.ok) {
+                const c = await res.json();
+                document.getElementById('editId').value = c.id;
+                document.getElementById('editNome').value = c.nome;
+                document.getElementById('editCpf').value = formatarCPF(c.cpf);
+                editModalOverlay.classList.add('active');
+            }
+        } catch(e) {}
+    };
 
-  window.deleteCliente = async (id) => {
-      if(confirm('Excluir?')) {
-          await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-          fetchAndRenderTable();
-      }
-  };
+    window.deleteCliente = async (id) => {
+        if(confirm('Excluir?')) {
+            await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            fetchAndRenderTable();
+        }
+    };
 
-  // Modais e Forms
-  modalCloseBtn.addEventListener('click', () => editModalOverlay.classList.remove('active'));
-  btnCancelarEdit.addEventListener('click', () => editModalOverlay.classList.remove('active'));
+    // Modais e Forms
+    modalCloseBtn.addEventListener('click', () => editModalOverlay.classList.remove('active'));
+    btnCancelarEdit.addEventListener('click', () => editModalOverlay.classList.remove('active'));
 
-  clienteForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const data = { nome: document.getElementById('nome').value, cpf: document.getElementById('cpf').value.replace(/\D/g,'') };
-      await fetch(API_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
-      clienteForm.reset(); fetchAndRenderTable(); alert('Salvo!');
-  });
+    clienteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = { nome: document.getElementById('nome').value, cpf: document.getElementById('cpf').value.replace(/\D/g,'') };
+        await fetch(API_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+        clienteForm.reset(); fetchAndRenderTable(); alert('Salvo!');
+    });
 
-  editClienteForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const data = { id: document.getElementById('editId').value, nome: document.getElementById('editNome').value, cpf: document.getElementById('editCpf').value.replace(/\D/g,'') };
-      await fetch(API_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
-      editModalOverlay.classList.remove('active'); fetchAndRenderTable(); alert('Atualizado!');
-  });
+    editClienteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = { id: document.getElementById('editId').value, nome: document.getElementById('editNome').value, cpf: document.getElementById('editCpf').value.replace(/\D/g,'') };
+        await fetch(API_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+        editModalOverlay.classList.remove('active'); fetchAndRenderTable(); alert('Atualizado!');
+    });
 
-  btnLimpar.addEventListener('click', () => clienteForm.reset());
+    btnLimpar.addEventListener('click', () => clienteForm.reset());
 
-  // Inicialização
-  document.addEventListener('DOMContentLoaded', () => {
-      fetchAndRenderTable();
-      const mask = (e) => e.target.value = formatarCPF(e.target.value);
-      document.getElementById('cpf').addEventListener('input', mask);
-      document.getElementById('editCpf').addEventListener('input', mask);
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchAndRenderTable();
+        const mask = (e) => e.target.value = formatarCPF(e.target.value);
+        document.getElementById('cpf').addEventListener('input', mask);
+        document.getElementById('editCpf').addEventListener('input', mask);
 
-      const inputNome = document.getElementById('nome');
-      inputNome.addEventListener('input', () => {
-          const q = inputNome.value.toLowerCase();
-          removerSugestoes();
-          if(q.length < 1) return;
-          const res = allClientes.filter(c => c.nome.toLowerCase().includes(q)).slice(0,5);
-          if(res.length > 0) {
-              const div = document.createElement('div'); div.className = 'search-results'; div.id = 'autocomplete-results';
-              res.forEach(c => {
-                  const item = document.createElement('div'); item.className = 'result-item'; item.textContent = c.nome;
-                  item.onclick = () => {
-                      document.getElementById('id').value = c.id;
-                      document.getElementById('nome').value = c.nome;
-                      document.getElementById('cpf').value = formatarCPF(c.cpf);
-                      removerSugestoes();
-                  };
-                  div.appendChild(item);
-              });
-              inputNome.parentNode.insertBefore(div, inputNome.nextSibling);
-          }
-      });
-      document.addEventListener('click', (e) => { if(e.target.id !== 'nome') removerSugestoes(); });
-  });
+        // Autocomplete
+        const inputNome = document.getElementById('nome');
+        inputNome.addEventListener('input', () => {
+            const q = inputNome.value.toLowerCase();
+            removerSugestoes();
+            if(q.length < 1) return;
+            const res = allClientes.filter(c => c.nome.toLowerCase().includes(q)).slice(0,5);
+            if(res.length > 0) {
+                const div = document.getElementById('autocomplete-results');
+                div.style.display = 'block';
+                div.innerHTML = '';
+                res.forEach(c => {
+                    const item = document.createElement('div');
+                    item.className = 'result-item';
+                    item.textContent = c.nome;
+                    item.onclick = () => {
+                        document.getElementById('id').value = c.id;
+                        document.getElementById('nome').value = c.nome;
+                        document.getElementById('cpf').value = formatarCPF(c.cpf);
+                        removerSugestoes();
+                    };
+                    div.appendChild(item);
+                });
+            }
+        });
+        document.addEventListener('click', (e) => { if(e.target.id !== 'nome') removerSugestoes(); });
+    });
 </script>
 
 </body>

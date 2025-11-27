@@ -1,76 +1,77 @@
 package com.finan.orcamento.controller;
 
 import com.finan.orcamento.model.OrcamentoModel;
+import com.finan.orcamento.repositories.OrcamentoRepository;
 import com.finan.orcamento.service.OrcamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity; // Removido HttpStatus
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 @RequestMapping("/orcamentos")
 public class OrcamentoController {
+
     @Autowired
     private OrcamentoService orcamentoService;
 
-    // 1. Endpoint para servir a PÁGINA HTML
+    @Autowired
+    private OrcamentoRepository orcamentoRepository;
+
     @GetMapping
-    public String paginaOrcamentos() {
-        return "orcamentoPage";
-    }
+    public String paginaOrcamentos() { return "orcamentoPage"; }
 
     // --- API REST ---
 
-    // 2. API para LISTAR
     @GetMapping("/api")
     @ResponseBody
-    public ResponseEntity<List<OrcamentoModel>> buscaTodosOrcamentos(){
+    public ResponseEntity<List<OrcamentoModel>> buscaTodos(){
         return ResponseEntity.ok(orcamentoService.buscarCadastro());
     }
 
-    // 3. API para OBTER POR ID
     @GetMapping("/api/{id}")
     @ResponseBody
     public ResponseEntity<OrcamentoModel> buscaPorId(@PathVariable Long id){
-        try {
-            OrcamentoModel orcamento = orcamentoService.buscaId(id);
-            return ResponseEntity.ok(orcamento);
-        } catch (RuntimeException e) {
-            // Retorna 404 se o serviço lançar a exceção
-            return ResponseEntity.notFound().build();
-        }
+        try { return ResponseEntity.ok(orcamentoService.buscaId(id)); }
+        catch (Exception e) { return ResponseEntity.notFound().build(); }
     }
 
-    // 4. API para SALVAR (Criar/Atualizar) - UNIFICADO
     @PostMapping("/api")
     @ResponseBody
-    public ResponseEntity<OrcamentoModel> salvarOuAtualizarOrcamento(@RequestBody OrcamentoModel orcamentoModel){
-        // Esta única função agora trata tanto a CRIAÇÃO (sem ID no body)
-        // quanto a ATUALIZAÇÃO (com ID no body),
-        // assim como o seu frontend espera.
-        try {
-            OrcamentoModel orcamentoSalvo = orcamentoService.salvarOuAtualizar(orcamentoModel);
-            return ResponseEntity.ok(orcamentoSalvo);
-        } catch (RuntimeException e) {
-            // Retorna 400 Bad Request se a validação falhar (ex: sem usuário E sem cliente)
-            return ResponseEntity.badRequest().body(null); // ideal seria um DTO de erro
-        }
+    public ResponseEntity<OrcamentoModel> salvar(@RequestBody OrcamentoModel model){
+        try { return ResponseEntity.ok(orcamentoService.salvarOuAtualizar(model)); }
+        catch (Exception e) { return ResponseEntity.badRequest().build(); }
     }
 
-    // 5. API para DELETAR
     @DeleteMapping("/api/{id}")
     @ResponseBody
-    public ResponseEntity<Void> deleteOrcamento(@PathVariable Long id){
-        try {
-            orcamentoService.deletaOrcamento(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            // Retorna 404 se tentar deletar algo que não existe
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deletar(@PathVariable Long id){
+        try { orcamentoService.deletaOrcamento(id); return ResponseEntity.noContent().build(); }
+        catch (Exception e) { return ResponseEntity.notFound().build(); }
     }
 
-    // Endpoint PUT removido, pois foi unificado no POST
+    // RELATÓRIO PAGINADO (Filtro de Data e Valor do Orçamento)
+    @GetMapping("/api/relatorio")
+    @ResponseBody
+    public ResponseEntity<Page<OrcamentoModel>> relatorioOrcamentos(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "dataInicio", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam(value = "dataFim", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+            @RequestParam(value = "valorMin", required = false) BigDecimal valorMin,
+            @RequestParam(value = "valorMax", required = false) BigDecimal valorMax
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("dataCriacao").descending());
+        Page<OrcamentoModel> result = orcamentoRepository.findOrcamentosReport(dataInicio, dataFim, valorMin, valorMax, pageable);
+        return ResponseEntity.ok(result);
+    }
 }

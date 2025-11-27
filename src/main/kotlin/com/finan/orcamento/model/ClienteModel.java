@@ -1,12 +1,14 @@
 package com.finan.orcamento.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.annotations.CreationTimestamp; // Importante
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
-import java.time.LocalDate; // Importante
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +29,6 @@ public class ClienteModel implements Serializable {
     @Column(name = "cpf", unique = true)
     private String cpf;
 
-    // NOVO CAMPO: Data de Cadastro
     @CreationTimestamp
     @Column(name = "data_cadastro", updatable = false)
     private LocalDate dataCadastro;
@@ -35,6 +36,18 @@ public class ClienteModel implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<OrcamentoModel> orcamentos = new ArrayList<>();
+
+    // Campo calculado virtual para o JSON (Total Gasto)
+    @JsonProperty("totalGasto")
+    public BigDecimal getTotalGasto() {
+        if (orcamentos == null || orcamentos.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        return orcamentos.stream()
+                .map(OrcamentoModel::getValorOrcamento)
+                .filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 
     public ClienteModel() {}
 
@@ -47,16 +60,12 @@ public class ClienteModel implements Serializable {
     // Getters e Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
-
     public String getCpf() { return cpf; }
     public void setCpf(String cpf) { this.cpf = cpf; }
-
     public LocalDate getDataCadastro() { return dataCadastro; }
     public void setDataCadastro(LocalDate dataCadastro) { this.dataCadastro = dataCadastro; }
-
     public List<OrcamentoModel> getOrcamentos() { return orcamentos; }
     public void setOrcamentos(List<OrcamentoModel> orcamentos) { this.orcamentos = orcamentos; }
 
